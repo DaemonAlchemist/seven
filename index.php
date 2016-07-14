@@ -79,8 +79,8 @@
             <nav class="navbar navbar-default">
                 <div class="container-fluid">
                     <div class="navbar-header">
-                        <a class="navbar-brand" href="https://github.com/DaemonAlchemist/seven">Contribute</a>
-                        <a class="navbar-brand" href="https://github.com/DaemonAlchemist/seven/issues">Bug Reports</a>
+                        <a class="navbar-brand" href="https://github.com/DaemonAlchemist/seven" target="blank">Contribute</a>
+                        <a class="navbar-brand" href="https://github.com/DaemonAlchemist/seven/issues" target="blank">Bug Reports</a>
                     </div>
                 </div>
             </nav>
