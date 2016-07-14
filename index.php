@@ -48,10 +48,23 @@
                 min-width: 0.5em !important;
                 width: 0.5em !important;
             }
+            
+            footer {
+                clear: both;
+                padding-top: 15px;
+            }
+            
+            footer .navbar-header {
+                text-align: center !important;
+            }
+            
+            footer a.navbar-brand {
+                float: none;
+                display: inline-block;
+            }
         </style>
     </head>
-    <body>
-        
+    <body>        
         <nav class="navbar navbar-default">
             <div class="container-fluid">
                 <div class="navbar-header">
@@ -61,6 +74,18 @@
         </nav>
     
         <div id="page"></div>
+        
+        <footer>
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="https://github.com/DaemonAlchemist/seven">Contribute</a>
+                        <a class="navbar-brand" href="https://github.com/DaemonAlchemist/seven/issues">Bug Reports</a>
+                    </div>
+                </div>
+            </nav>
+        </footer>
+        
         <script src="http://underscorejs.org/underscore-min.js"></script>
         <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
