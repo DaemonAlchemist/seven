@@ -81,6 +81,7 @@
                     <div class="navbar-header">
                         <a class="navbar-brand" href="https://github.com/DaemonAlchemist/seven" target="blank">Contribute</a>
                         <a class="navbar-brand" href="https://github.com/DaemonAlchemist/seven/issues" target="blank">Bug Reports</a>
+                        <a class="navbar-brand" href="License.txt" target="blank">License</a>
                     </div>
                 </div>
             </nav>
