@@ -23,6 +23,7 @@
             #score-table tr {
                 display: block;
                 width: 100%;
+                clear: both;
             }
             
             #score-table thead th {
@@ -96,7 +97,7 @@
         <script id="newGameForm" type="text/html" class="handlebars-template">
             <div id="newGameForm" class="col-xs-12 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
                 <div class="col-xs-12">
-                    <h4><i class="fa fa-play"></i> Start a Seven Game</h4>
+                    <h4><i class="fa fa-play"></i> Start a New Game of Seven</h4>
                 </div>
                 <?php for($i=0; $i<7; $i++) { ?>
                     <div class="col-xs-12 row-buffered">
@@ -138,7 +139,7 @@
                                     {{cardCount}}
                                 </th>
                                 {{#bids}}
-                                    <td>{{score}}</td>
+                                    <th>{{{scoreDisplay}}}</th>
                                 {{/bids}}
                             </tr>
                         {{/rounds}}
@@ -157,6 +158,14 @@
                     </button>
                 {{/unless}}
             </div>
+        </script>
+
+        <script id="scoreSuccess" type="text/html" class="handlebars-template">
+            <span class="text-success">{{score}}</span>
+        </script>
+
+        <script id="scoreScrewed" type="text/html" class="handlebars-template">
+            <span class="text-danger"><strike>{{bid}}</strike></span>
         </script>
 
         <script id="bidForm" type="text/html" class="handlebars-template">
@@ -290,6 +299,13 @@
                     return this.screwed == null || this.screwed
                         ? 0
                         : this.bid + 10;
+                }
+                this.scoreDisplay = function() {
+                    var disp =
+                        (this.screwed == null ? "&nbsp;" :
+                        (this.screwed         ? _T('scoreScrewed', this) :
+                                                _T('scoreSuccess', this)));
+                    return disp;
                 }
             };
 
