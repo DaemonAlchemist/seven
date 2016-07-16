@@ -238,7 +238,7 @@
                 var serializer = this;
 
                 this.save = function(name) {
-                    localStorage.setItem(name, serializer.objects);
+                    localStorage.setItem(name, JSON.stringify(serializer.objects));
                 };
 
                 this.load = function(name) {
