@@ -232,6 +232,46 @@
             //====End Helper Functions
 
             //====Start Data Model
+            var Serializer = function() {
+                this.objects = {};
+
+                var serializer = this;
+
+                this.save = function(name) {
+                    localStorage.setItem(name, serializer.objects);
+                };
+
+                this.load = function(name) {
+                    serializer.objects = $.parseJSON(localStorage.getItem(name));
+                };
+
+                this.serialize = function(object) {
+                    if(object == null) return null;
+                    if(typeof this.objects[object.id()] == 'undefined') {
+                        var objSerialized = {};
+                        serializer.objects[object.id()] = objSerialized;
+                        object.simpleFields().forEach(function(name) {
+                            objSerialized[name] = object[name];
+                        });
+                        object.objectFields().forEach(function(name) {
+                            objSerialized[name] = serializer.serialize(object[name]);
+                        });
+                        object.objectLists().forEach(function(name) {
+                            objSerialized[name] = object[name].map(function(object) {
+                                serializer.serialize(object);
+                                return object.id();
+                            });
+                        });
+                    }
+
+                    return object.id();
+                };
+
+                this.unserialize = function(object) {
+                    //TODO:  implement
+                };
+            };
+
             var Game = function(){
                 this.players = [];
                 this.rounds = [];
@@ -277,6 +317,19 @@
                     return 100.0 / (this.players.length + 1);
                 };
 
+                this.id = function() {
+                    return "game";
+                };
+                this.simpleFields = function() {
+                    return ['roundIndex', 'gameOver'];
+                };
+                this.objectFields = function() {
+                    return ['currentRound'];
+                };
+                this.objectLists = function() {
+                    return ['players', 'rounds'];
+                } ;
+
                 this.init();
             };
 
@@ -288,9 +341,22 @@
                         return total + bid.score();
                     }, 0);
                 };
+                this.id = function() {
+                    return "player_" + name;
+                };
+                this.simpleFields = function() {
+                    return ['name'];
+                };
+                this.objectFields = function() {
+                    return [];
+                };
+                this.objectLists = function() {
+                    return ['bids'];
+                } ;
             };
 
             var Bid = function() {
+                this.bidId = _.uniqueId();
                 this.player = null;
                 this.bid = 0;
                 this.screwed = null;
@@ -307,6 +373,19 @@
                                                 _T('scoreSuccess', this)));
                     return disp;
                 }
+
+                this.id = function() {
+                    return "bid_" + this.bidId;
+                };
+                this.simpleFields = function() {
+                    return ['id', 'bid', 'screwed', 'bidOptions'];
+                };
+                this.objectFields = function() {
+                    return ['player'];
+                };
+                this.objectLists = function() {
+                    return [];
+                } ;
             };
 
             var Round = function(round, cardCount, game) {
@@ -324,6 +403,18 @@
                     bid.bidOptions = this.bidOptions;
                     this.bids.push(bid);
                 }
+                this.id = function() {
+                    return "round_" + this.round;
+                };
+                this.simpleFields = function() {
+                    return ['round', 'cardCount', 'bidOptions'];
+                };
+                this.objectFields = function() {
+                    return ['game'];
+                };
+                this.objectLists = function() {
+                    return ['bids'];
+                } ;
             };
             //====End Data Model
 
@@ -388,6 +479,12 @@
                 
                 //Show the scoreboard when clicking the finish round button
                 $(document).on('click', '#finishRoundBtn', function() {
+                    //Save the game state after every round
+                    var serializer = new Serializer();
+                    serializer.serialize(game);
+                    console.debug(JSON.stringify(serializer.objects));
+                    serializer.save("game");
+
                     $("#page").html(_T("gameBoard", game));
                 });
             }(jQuery));
