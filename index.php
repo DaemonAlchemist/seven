@@ -7,6 +7,15 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
 
         <style>
+            .navbar-header {
+                width: 100%;
+            }
+            #newGameDiv {
+                float: right !important;
+                margin-top: 8px;
+                margin-right: -22px;
+            }
+
             .row-buffered {
                 margin-bottom: 15px;
             }
@@ -70,6 +79,12 @@
             <div class="container-fluid">
                 <div class="navbar-header">
                     <a class="navbar-brand" href="#">Seven</a>
+                    <div id="newGameDiv">
+                        <button id="newGameBtn" class="btn btn-primary">
+                            <i class="fa fa-refresh"></i>
+                            New Game
+                        </button>
+                    </div>
                 </div>
             </div>
         </nav>
@@ -234,45 +249,103 @@
             //====Start Data Model
             var Serializer = function() {
                 this.objects = {};
+                this.unserializedObjects = {};
 
                 var serializer = this;
 
+                this.reset = function(){
+                    this.objects = {};
+                    this.unserializedObjects = {};
+                    this.clear();
+                };
+
                 this.save = function(name) {
-                    localStorage.setItem(name, JSON.stringify(serializer.objects));
+                    localStorage.setItem(name, JSON.stringify(this.objects));
                 };
 
                 this.load = function(name) {
                     serializer.objects = $.parseJSON(localStorage.getItem(name));
                 };
 
+                this.clear = function(name) {
+                    localStorage.removeItem(name);
+                }
+
                 this.serialize = function(object) {
-                    if(object == null) return null;
-                    if(typeof this.objects[object.id()] == 'undefined') {
+                    if(object == null) {
+                        console.log("No object to serialize.  Returning null");
+                        return null;
+                    }
+                    console.debug("Serializing " + object.id());
+                    var objectId = object.id();
+                    if(typeof this.objects[objectId] == 'undefined') {
                         var objSerialized = {};
-                        serializer.objects[object.id()] = objSerialized;
+                        var type = object.constructor.name;
+                        console.debug("[" + objectId + "]Object is a " + type);
+                        serializer.objects[objectId] = {
+                            type: type,
+                            data: objSerialized
+                        };
                         object.simpleFields().forEach(function(name) {
+                            console.debug("[" + objectId + "]Serializing simple field " + name);
                             objSerialized[name] = object[name];
                         });
                         object.objectFields().forEach(function(name) {
+                            console.debug("[" + objectId + "]Serializing object field " + name);
                             objSerialized[name] = serializer.serialize(object[name]);
                         });
                         object.objectLists().forEach(function(name) {
-                            objSerialized[name] = object[name].map(function(object) {
-                                serializer.serialize(object);
-                                return object.id();
+                            console.debug("[" + objectId + "]Serializing object list " + name);
+                            objSerialized[name] = object[name].map(function(listObject) {
+                                return serializer.serialize(listObject);
                             });
                         });
+                    } else {
+                        console.debug("[" + objectId + "]Object already exists.");
                     }
 
-                    return object.id();
+                    console.debug("[" + objectId + "]Returning objectId");
+                    return objectId;
                 };
 
-                this.unserialize = function(object) {
-                    //TODO:  implement
+                this.unserialize = function(name) {
+                    console.debug("Unserializing " + name);
+                    var dispName = name;
+                    if(typeof serializer.unserializedObjects[name] == 'undefined') {
+                        if(!serializer.objects[name]) {
+                            console.debug("[" + dispName + "]Object does not exist in serializer. Returning null")
+                            return null;
+                        }
+                        var type = serializer.objects[name].type;
+                        var data = serializer.objects[name].data;
+                        console.debug("[" + dispName + "]Object is a " + type);
+                        var obj = new window[type]();
+                        serializer.unserializedObjects[name] = obj;
+
+                        obj.simpleFields().forEach(function(name){
+                            console.debug("[" + dispName + "]Unserializing simple field " + name + " with value " + data[name]);
+                            obj[name] = data[name];
+                        });
+                        obj.objectFields().forEach(function(name) {
+                            console.debug("[" + dispName + "]Unserializing object field " + name);
+                            obj[name] = serializer.unserialize(data[name]);
+                        });
+                        obj.objectLists().forEach(function(listName){
+                            console.debug("[" + dispName + "]Unserializing object list " + listName);
+                            obj[listName] = data[listName].map(function(objName){
+                                return serializer.unserialize(objName);
+                            })
+                        });
+                    } else {
+                        console.log("[" + dispName + "]Already exists");
+                    }
+
+                    console.debug("[" + dispName + "]Returning object " + name);
+                    return serializer.unserializedObjects[name];
                 };
             };
 
-            var Game = function(){
+            function Game(){
                 this.players = [];
                 this.rounds = [];
 
@@ -333,8 +406,8 @@
                 this.init();
             };
 
-            var Player = function(name) {
-                this.name = name;
+            function Player(name) {
+                this.name = typeof name != 'undefined' ? name : null;
                 this.bids = [];
                 this.score = function() {
                     return this.bids.reduce(function(total, bid) {
@@ -342,7 +415,7 @@
                     }, 0);
                 };
                 this.id = function() {
-                    return "player_" + name;
+                    return "player_" + this.name;
                 };
                 this.simpleFields = function() {
                     return ['name'];
@@ -355,7 +428,7 @@
                 } ;
             };
 
-            var Bid = function() {
+            function Bid() {
                 this.bidId = _.uniqueId();
                 this.player = null;
                 this.bid = 0;
@@ -378,7 +451,7 @@
                     return "bid_" + this.bidId;
                 };
                 this.simpleFields = function() {
-                    return ['id', 'bid', 'screwed', 'bidOptions'];
+                    return ['bidId', 'bid', 'screwed', 'bidOptions'];
                 };
                 this.objectFields = function() {
                     return ['player'];
@@ -388,12 +461,12 @@
                 } ;
             };
 
-            var Round = function(round, cardCount, game) {
-                this.round = round;
-                this.cardCount = cardCount;
+            function Round(round, cardCount, game) {
+                this.round = typeof round != 'undefined' ? round : null;
+                this.cardCount = cardCount || null;
                 this.bids = [];
-                this.game = game;
-                this.bidOptions = _.range(0, cardCount + 1);
+                this.game = game || null;
+                this.bidOptions = _.range(0, (cardCount || 0) + 1);
 
                 this.isCurrentRound = function() {
                     return this.round == this.game.roundIndex + 1;
@@ -418,13 +491,23 @@
             };
             //====End Data Model
 
-            //Create game Object
-            var game = new Game();
-
             //Initialize game
+            var game = null;
             (function($){
-                //Display the new game form
-                $("#page").html(_T("newGameForm"));
+                //Create the serializer
+                var serializer = new Serializer();
+                serializer.load('game');
+
+                if(serializer.objects != null) {
+                    game = serializer.unserialize('game');
+                    $("#page").html(_T("gameBoard", game));
+                } else {
+                    //Create game Object
+                    game = new Game();
+
+                    //Display the new game form
+                    $("#page").html(_T("newGameForm"));
+                }
 
                 //Add the players to the game upon new game form submission
                 $(document).on('click', '#startGameBtn', function(){
@@ -480,12 +563,20 @@
                 //Show the scoreboard when clicking the finish round button
                 $(document).on('click', '#finishRoundBtn', function() {
                     //Save the game state after every round
-                    var serializer = new Serializer();
+                    serializer = new Serializer();
                     serializer.serialize(game);
-                    console.debug(JSON.stringify(serializer.objects));
                     serializer.save("game");
+                    console.debug(JSON.stringify(serializer.objects));
 
                     $("#page").html(_T("gameBoard", game));
+                });
+
+                //Start a new game when clicking the new game button
+                $(document).on('click', '#newGameBtn', function(){
+                    game = new Game();
+                    serializer = new Serializer();
+                    serializer.clear('game');
+                    $("#page").html(_T("newGameForm"));
                 });
             }(jQuery));
         </script>
