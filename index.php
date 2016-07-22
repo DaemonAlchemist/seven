@@ -8,7 +8,7 @@
         <link rel="stylesheet" href="style.css" />
     </head>
     <body>        
-        <nav class="navbar navbar-default">
+        <nav class="navbar navbar-default navbar-fixed-top">
             <div class="container-fluid">
                 <div class="navbar-header">
                     <a class="navbar-brand" href="#">Seven</a>
@@ -25,7 +25,7 @@
         <div id="page"></div>
         
         <footer>
-            <nav class="navbar navbar-default">
+            <nav class="navbar navbar-default navbar-fixed-bottom">
                 <div class="container-fluid">
                     <div class="navbar-header">
                         <a class="navbar-brand" href="https://github.com/DaemonAlchemist/seven" target="blank">Contribute</a>

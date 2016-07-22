@@ -1,3 +1,8 @@
+body {
+    padding-top: 60px;
+    padding-bottom: 90px;
+}
+
 .navbar-header {
     width: 100%;
 }
@@ -48,6 +53,11 @@
 .bidFormName {
     min-width: 0.5em !important;
     width: 0.5em !important;
+}
+
+div.game-btn {
+    position: fixed;
+    bottom: 60px;
 }
 
 footer {

@@ -8,10 +8,11 @@
                 <input class="form-control playerName" id="player-<?=$i?>" placeholder="Player <?=$i+1?>"/>
             </div>
         <?php } ?>
-        <div class="col-xs-12">
-            <button id="startGameBtn" class="form-control btn btn-primary">
-                <i class="fa fa-play"></i> Start Game
-            </button>
-        </div>
+    </div>
+
+    <div class="game-btn col-xs-12">
+        <button id="startGameBtn" class="form-control btn btn-primary">
+            <i class="fa fa-play"></i> Start Game
+        </button>
     </div>
 </script>
