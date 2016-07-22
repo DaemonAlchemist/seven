@@ -5,74 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
-
-        <style>
-            .navbar-header {
-                width: 100%;
-            }
-            #newGameDiv {
-                float: right !important;
-                margin-top: 8px;
-                margin-right: -22px;
-            }
-
-            .row-buffered {
-                margin-bottom: 15px;
-            }
-            
-            #score-table {
-                margin: auto;
-            }
-            
-            #score-table tbody {
-                padding-top: 1em;
-                display: block;
-            }
-            
-            #score-table tr {
-                display: block;
-                width: 100%;
-                clear: both;
-            }
-            
-            #score-table thead th {
-                transform: rotate(-45deg);
-                border: none;
-            }
-            
-            #score-table th, #score-table td {
-                display: block;
-                float: left;
-                text-align: center;
-            }
-            
-            .round-indicator {
-                visibility: hidden;
-            }
-            
-            .round-indicator.current-round {
-                visibility: visible;
-            }
-            
-            .bidFormName {
-                min-width: 0.5em !important;
-                width: 0.5em !important;
-            }
-            
-            footer {
-                clear: both;
-                padding-top: 15px;
-            }
-            
-            footer .navbar-header {
-                text-align: center !important;
-            }
-            
-            footer a.navbar-brand {
-                float: none;
-                display: inline-block;
-            }
-        </style>
+        <link rel="stylesheet" href="style.css" />
     </head>
     <body>        
         <nav class="navbar navbar-default">
