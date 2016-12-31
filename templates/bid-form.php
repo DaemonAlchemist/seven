@@ -17,6 +17,24 @@
                 </div>
             </div>
         {{/currentRound.bids}}
+
+
+        <div class="row row-buffered">
+            <div class="col-xs-12">
+                <div class="btn-group btn-group-justified">
+                    <div class="btn-group"><button class="btn btn-success" disabled>Total Bids: </button></div>
+                    <div class="btn-group"><button class="btn btn-default" disabled> 5 </button></div>
+                </div>
+            </div>
+        </div>
+        <div class="row row-buffered">
+            <div class="col-xs-12">
+                <div class="btn-group btn-group-justified">
+                    <div class="btn-group"><button class="btn btn-warning" disabled>Cannot Bid: </button></div>
+                    <div class="btn-group"><button class="btn btn-default" disabled> 5 </button></div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="game-btn col-xs-12">
