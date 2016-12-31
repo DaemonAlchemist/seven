@@ -17,6 +17,22 @@ function Round(round, cardCount, game) {
         bid.bidOptions = this.bidOptions;
         this.bids.push(bid);
     }
+
+    this.totalBids = function(){
+        //return this.bids.reduce((total, bid) => total + bid, 0);
+        return this.bids.reduce(function(total, bid) {
+            return total + bid.bid;
+        }, 0);
+    }
+    
+    this.cannotBid = function(){
+        var bidCount = this.cardCount - this.totalBids();
+        if(bidCount < 0){
+            bidCount = "Anything";
+        }
+        return bidCount        
+    }
+
     this.id = function() {
         return "round_" + this.round;
     };
