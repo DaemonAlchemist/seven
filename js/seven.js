@@ -46,6 +46,9 @@ var game = null;
         //Set the bid
         var data = $(this).data();
         game.currentRound.bids[data.bidIndex].bid = data.bid;
+        $('#total-bids').html(game.currentRound.totalBids());
+        $('#cannot-bid').html(game.currentRound.cannotBid());
+
     });
 
     //Show round form upon clicking accept bid button
@@ -89,4 +92,6 @@ var game = null;
         serializer.clear('game');
         $("#page").html(_T("newGameForm"));
     });
+
+    console.log(game);
 }(jQuery));

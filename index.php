@@ -28,9 +28,15 @@
             <nav class="navbar navbar-default navbar-fixed-bottom">
                 <div class="container-fluid">
                     <div class="navbar-header">
-                        <a class="navbar-brand" href="https://github.com/DaemonAlchemist/seven" target="blank">Contribute</a>
-                        <a class="navbar-brand" href="https://github.com/DaemonAlchemist/seven/issues" target="blank">Bug Reports</a>
-                        <a class="navbar-brand" href="License.txt" target="blank">License</a>
+                        <a class="navbar-brand" href="https://github.com/DaemonAlchemist/seven" target="blank">
+                            <i class="fa fa-github" aria-hidden="true"></i>
+                        </a>
+                        <a class="navbar-brand" href="https://github.com/DaemonAlchemist/seven/issues" target="blank">
+                            <i class="fa fa-bug" aria-hidden="true"></i>
+                        </a>
+                        <a class="navbar-brand" href="License.txt" target="blank">
+                            <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                        </a>
                     </div>
                 </div>
             </nav>
