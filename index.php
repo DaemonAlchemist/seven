@@ -30,12 +30,15 @@
                     <div class="navbar-header">
                         <a class="navbar-brand" href="https://github.com/DaemonAlchemist/seven" target="blank">
                             <i class="fa fa-github" aria-hidden="true"></i>
+                            <span class="hidden-xs">Contribute</span>
                         </a>
                         <a class="navbar-brand" href="https://github.com/DaemonAlchemist/seven/issues" target="blank">
                             <i class="fa fa-bug" aria-hidden="true"></i>
+                            <span class="hidden-xs">Report a Bug</span>
                         </a>
                         <a class="navbar-brand" href="License.txt" target="blank">
                             <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                            <span class="hidden-xs">License</span>
                         </a>
                     </div>
                 </div>
