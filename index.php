@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
         <link rel="stylesheet" href="css/style.css" />
     </head>
     <body>        
@@ -50,11 +50,11 @@
         <?php include('templates/bid-form.php')?>
         <?php include('templates/round-form.php')?>
 
-        <script src="http://underscorejs.org/underscore-min.js"></script>
-        <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
-        <script src="https://use.fontawesome.com/437a093948.js"></script>
+        <script src="//underscorejs.org/underscore-min.js"></script>
+        <script src="//code.jquery.com/jquery-2.2.4.min.js"></script>
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+        <script src="//use.fontawesome.com/437a093948.js"></script>
         <script src="js/helpers.js"></script>
         <script src="js/serializer.js"></script>
         <script src="js/game.js"></script>
